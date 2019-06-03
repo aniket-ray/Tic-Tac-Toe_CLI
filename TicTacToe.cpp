@@ -1,6 +1,14 @@
 #include <iostream>
 #include <climits>
+#include <chrono>
+#include <time.h>
+#include <stdlib.h>
+#include <cstdio>
+#include <unistd.h>
+
+
 using namespace std;
+
 
 /*
  *  ASCII X = 88
@@ -147,7 +155,7 @@ char USER(void)
 }
 
 char CPU(void)
-{
+{ 
     getCPUMove();
     return PLAYER2;
 }
@@ -273,6 +281,11 @@ int minimax(bool isMax) //Minimax Algorithm for AI
 
 void getCPUMove(void)
 {
+    cout << "\n\n\nCPU is thinking\n\n";
+    for(int i = 0; i < rand() % 8; i++)
+    {
+       usleep(120000);
+    }
     int bestMoveValue = INT_MIN;
     int row = -1, col = -1;
 
@@ -303,6 +316,7 @@ void getCPUMove(void)
 
 int main()
 {
+    srand(time(0));
     choseType();
     char player;
     char isWinner;
@@ -311,18 +325,20 @@ int main()
     {
         drawBoard();
         player = (++continuity % 2) ? (USER()) : (CPU());
+        drawBoard();
         int win = boardEvaluate();
         if (win == +10)
         {
             cout << "\n\nPLAYER 2 Wins\n\n";
+            cout << "         !!!! BETTER LUCK NEXT TIME !!!! \n\n\n";
             break;
         }
 
-        if (win == -10)
-        {
-            cout << "\n\nPLAYER 1 Wins\n\n";
-            break;
-        }
+        // if (win == -10)
+        // {
+        //     cout << "\n\nPLAYER 1 Wins\n\n";
+        //     break;
+        // }
 
         if (checkGameState() == false)
             cout << "\n\nMatch Ties\n\n";
